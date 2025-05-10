@@ -48,14 +48,10 @@
       })
       .then(user => {
         localStorage.setItem('user', JSON.stringify(user));
-        window.location.href = user.email === 'admin@skillswap.sa' ? 'admin.html' : 'profile.html';
+        window.location.href = user.email === 'admin@skillswap.sa' ? 'admin.html' : 'search.html';
       })
       .catch(() => alert('Invalid credentials'));
     });
   </script>
-
-  <!-- ✅ Chatbot -->
-  <script src="static/js/chatbot.js"></script>
-  <div id="chatbot-container">...</div>
 </body>
 </html>
