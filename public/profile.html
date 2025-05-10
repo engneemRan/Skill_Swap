@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>My Profile</title>
+  <link rel="stylesheet" href="static/css/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <style>
+    main {
+      display: flex;
+      justify-content: center;
+      padding: 60px 20px;
+    }
+
+    .profile-card {
+      background: #f5f7ff;
+      border: 1px solid #dbe2ff;
+      border-radius: 12px;
+      padding: 40px 30px;
+      width: 100%;
+      max-width: 600px;
+      box-shadow: 0 6px 16px rgba(93, 95, 239, 0.08);
+    }
+
+    .profile-card h1 {
+      text-align: center;
+      color: #5D5FEF;
+      margin-bottom: 30px;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    .profile-card p {
+      margin-bottom: 10px;
+      font-weight: 500;
+    }
+
+    .profile-card span {
+      color: #333;
+      font-weight: normal;
+    }
+
+    .profile-card textarea,
+    .profile-card input {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      margin-bottom: 15px;
+      font-size: 1em;
+    }
+
+    .profile-card button {
+      background-color: #5D5FEF;
+      color: white;
+      border: none;
+      padding: 12px 20px;
+      font-size: 1em;
+      border-radius: 8px;
+      cursor: pointer;
+      width: 100%;
+      transition: background-color 0.3s ease;
+    }
+
+    .profile-card button:hover {
+      background-color: #3d3fee;
+    }
+
+    #message {
+      margin-top: 15px;
+      text-align: center;
+      font-weight: bold;
+      color: #5D5FEF;
+    }
+
+    @media (max-width: 600px) {
+      .profile-card {
+        padding: 30px 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="navbar">
+    <a href="index.html" class="logo">
+      <i class="fas fa-sync-alt"></i> Skill Swap
+    </a>
+    <nav>
+      <ul id="navLinks"></ul>
+    </nav>
+  </header>
+
+  <main>
+    <form id="profileForm" class="profile-card">
+      <h1>My Profile</h1>
+      <p><strong>Name:</strong> <span id="name"></span></p>
+      <p><strong>Email:</strong> <span id="email"></span></p>
+
+      <textarea id="bio" placeholder="Your bio..."></textarea>
+      <input type="text" id="offers" placeholder="Skills You Offer">
+      <input type="text" id="wants" placeholder="Skills You Want to Learn">
+      <input type="password" id="newPassword" placeholder="New Password (optional)">
+
+      <button type="submit">Update Profile</button>
+      <p id="message"></p>
+    </form>
+  </main>
+
+  <footer>
+    <div class="footer-content">
+      <p>© 2025 Skill Swap |
+        <a href="about.html">About</a> |
+        <a href="contact.html">Contact</a> |
+        <a href="support.html">Support</a>
+      </p>
+    </div>
+  </footer>
+
+  <script src="static/js/main.js"></script>
+  <script>
+    const user = JSON.parse(localStorage.getItem('user'));
+    if (!user) {
+      window.location.href = 'login.html';
+    }
+
+    document.getElementById('name').textContent = user.name;
+    document.getElementById('email').textContent = user.email;
+
+    fetch(`/api/users/${user._id}`)
+      .then(res => res.json())
+      .then(data => {
+        if (data.success) {
+          const u = data.user;
+          document.getElementById('bio').value = u.bio || '';
+          document.getElementById('offers').value = u.offers || '';
+          document.getElementById('wants').value = u.wants || '';
+        }
+      });
+
+    document.getElementById('profileForm').addEventListener('submit', async function(e) {
+      e.preventDefault();
+      const res = await fetch(`/api/users/${user._id}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          bio: document.getElementById('bio').value,
+          offers: document.getElementById('offers').value,
+          wants: document.getElementById('wants').value
+        })
+      });
+      const data = await res.json();
+      document.getElementById('message').textContent = data.success
+        ? '✅ Profile updated successfully!'
+        : '❌ Update failed.';
+    });
+  </script>
+    <!-- ✨ أضف داخل <body> -->
+<!-- ✅ Chatbot -->
+<div id="chatbot-container">
+  <div id="chatbot-box" class="chatbox hidden">
+    <div class="chatbox-header">
+      <div class="agent-info">
+        <i class="fas fa-headset avatar"></i>
+        <div>
+          <h3>Help & Support</h3>
+          <span class="online-status"><span class="dot"></span> Online</span>
+        </div>
+      </div>
+      <button onclick="toggleChatbot(false)" class="close-btn">&times;</button>
+    </div>
+    <div class="chatbox-body" id="chat-content">
+      <p class="timestamp">Today at 9:23 AM</p>
+      <div class="chat-message">👋 Hello! I'm here to help. Choose an option below:</div>
+      <div class="quick-replies">
+        <button onclick="sendReply('How do I contact a user?')">How do I contact a user?</button>
+        <button onclick="sendReply('I forgot my password.')">I forgot my password</button>
+        <button onclick="sendReply('Where can I edit my profile?')">Where can I edit my profile?</button>
+      </div>
+    </div>
+  </div>
+
+  <button class="floating-button" onclick="toggleChatbot(true)">
+    <i class="fas fa-comment-dots"></i>
+  </button>
+</div>
+<script>
+  function toggleChatbot(open) {
+    const box = document.getElementById('chatbot-box');
+    box.classList.toggle('hidden', !open);
+  }
+
+  function sendReply(message) {
+    const chat = document.getElementById('chat-content');
+    const userReply = document.createElement('div');
+    userReply.className = 'chat-message';
+    userReply.style.background = '#d6e4ff';
+    userReply.textContent = '🧑‍💼 ' + message;
+    chat.appendChild(userReply);
+
+    const botReply = document.createElement('div');
+    botReply.className = 'chat-message';
+    setTimeout(() => {
+      botReply.textContent = getBotResponse(message);
+      chat.appendChild(botReply);
+      chat.scrollTop = chat.scrollHeight;
+    }, 500);
+  }
+
+  function getBotResponse(msg) {
+    if (msg.includes('contact')) return 'Click "Contact via Email" on user profiles.';
+    if (msg.includes('password')) return 'Go to login page and click "Forgot Password".';
+    if (msg.includes('edit')) return 'You can edit your profile from the Profile page.';
+    return "I'm here to help!";
+  }
+</script>
+
+</body>
+</html>

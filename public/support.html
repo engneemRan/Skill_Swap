@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Support - Skill Swap</title>
+  <link rel="stylesheet" href="static/css/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+</head>
+<body>
+  <!-- الهيدر -->
+  <header class="navbar">
+    <a href="index.html" class="logo">
+      <i class="fas fa-sync-alt"></i> Skill Swap
+    </a>
+    <nav>
+      <ul id="navLinks"></ul>
+    </nav>
+  </header>
+
+  <!-- المحتوى الرئيسي -->
+  <main>
+    <section style="max-width: 600px; margin: auto; text-align: center;">
+      <h1>Support</h1>
+      <p>
+        Need help using Skill Swap? We're here to assist you with any issues or questions you may have.
+      </p>
+      <p>
+        📩 Reach our support team anytime at:<br>
+        <a href="mailto:support@skillswap.sa" style="color: #5D5FEF;">support@skillswap.sa</a>
+      </p>
+      <p>
+        We typically respond within <strong>24 hours</strong>. Your experience matters to us.
+      </p>
+    </section>
+  </main>
+
+  <!-- الفوتر -->
+  <footer>
+    <div class="footer-content">
+      <p>© 2025 Skill Swap |
+        <a href="about.html">About</a> |
+        <a href="contact.html">Contact</a> |
+        <a href="support.html">Support</a>
+      </p>
+    </div>
+  </footer>
+
+  <!-- سكربت تخصيص روابط النافبار -->
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const nav = document.getElementById('navLinks');
+      const user = JSON.parse(localStorage.getItem('user'));
+
+      if (user) {
+        nav.innerHTML = `
+          <li><a href="index.html">Home</a></li>
+          <li><a href="search.html">Search</a></li>
+          <li><a href="profile.html">Profile</a></li>
+          ${user.email === 'admin@skillswap.sa' ? `<li><a href="admin.html">Manage Users</a></li>` : ''}
+          <li><a href="#" onclick="logout()">Logout</a></li>
+        `;
+      } else {
+        nav.innerHTML = `
+          <li><a href="index.html">Home</a></li>
+          <li><a href="search.html">Search</a></li>
+          <li><a href="login.html">Login</a></li>
+          <li><a href="signup.html">Sign Up</a></li>
+        `;
+      }
+    });
+
+    function logout() {
+      localStorage.removeItem('user');
+      window.location.href = 'index.html';
+    }
+  </script>
+    <!-- ✨ أضف داخل <body> -->
+<!-- ✅ Chatbot -->
+<div id="chatbot-container">
+  <div id="chatbot-box" class="chatbox hidden">
+    <div class="chatbox-header">
+      <div class="agent-info">
+        <i class="fas fa-headset avatar"></i>
+        <div>
+          <h3>Help & Support</h3>
+          <span class="online-status"><span class="dot"></span> Online</span>
+        </div>
+      </div>
+      <button onclick="toggleChatbot(false)" class="close-btn">&times;</button>
+    </div>
+    <div class="chatbox-body" id="chat-content">
+      <p class="timestamp">Today at 9:23 AM</p>
+      <div class="chat-message">👋 Hello! I'm here to help. Choose an option below:</div>
+      <div class="quick-replies">
+        <button onclick="sendReply('How do I contact a user?')">How do I contact a user?</button>
+        <button onclick="sendReply('I forgot my password.')">I forgot my password</button>
+        <button onclick="sendReply('Where can I edit my profile?')">Where can I edit my profile?</button>
+      </div>
+    </div>
+  </div>
+
+  <button class="floating-button" onclick="toggleChatbot(true)">
+    <i class="fas fa-comment-dots"></i>
+  </button>
+</div>
+<script>
+  function toggleChatbot(open) {
+    const box = document.getElementById('chatbot-box');
+    box.classList.toggle('hidden', !open);
+  }
+
+  function sendReply(message) {
+    const chat = document.getElementById('chat-content');
+    const userReply = document.createElement('div');
+    userReply.className = 'chat-message';
+    userReply.style.background = '#d6e4ff';
+    userReply.textContent = '🧑‍💼 ' + message;
+    chat.appendChild(userReply);
+
+    const botReply = document.createElement('div');
+    botReply.className = 'chat-message';
+    setTimeout(() => {
+      botReply.textContent = getBotResponse(message);
+      chat.appendChild(botReply);
+      chat.scrollTop = chat.scrollHeight;
+    }, 500);
+  }
+
+  function getBotResponse(msg) {
+    if (msg.includes('contact')) return 'Click "Contact via Email" on user profiles.';
+    if (msg.includes('password')) return 'Go to login page and click "Forgot Password".';
+    if (msg.includes('edit')) return 'You can edit your profile from the Profile page.';
+    return "I'm here to help!";
+  }
+</script>
+
+</body>
+</html>

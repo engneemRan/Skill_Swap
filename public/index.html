@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Skill Swap Platform - Home</title>
+  <link rel="stylesheet" href="static/css/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <style>
+    .hero-section {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 30px;
+      margin: 40px auto;
+      max-width: 1200px;
+      flex-wrap: wrap;
+    }
+
+    .hero {
+      background: linear-gradient(to left, #e6eaff, #f8f9ff);
+      padding: 80px 20px;
+      text-align: right;
+      border-radius: 12px;
+      flex: 1;
+      min-width: 300px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    }
+
+    .hero h1 {
+      color: #5D5FEF;
+      font-size: 2.5em;
+      margin-bottom: 20px;
+    }
+
+    .hero p {
+      color: #333;
+      font-size: 1.1em;
+      line-height: 1.8;
+      margin-bottom: 30px;
+    }
+
+    .cta-button {
+      background-color: #5D5FEF;
+      color: white;
+      padding: 14px 32px;
+      font-size: 1.1em;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: bold;
+      transition: background-color 0.3s ease;
+    }
+
+    .cta-button:hover {
+      background-color: #3d3fee;
+    }
+
+    .side-cards {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      min-width: 240px;
+      flex-shrink: 0;
+    }
+
+    .stat-box,
+    .link-box {
+      background-color: #e1f0ff;
+      padding: 20px 30px;
+      border-radius: 10px;
+      text-align: center;
+      font-weight: 500;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+    }
+
+    .stat-box .number {
+      font-size: 2em;
+      color: #0a58ca;
+      margin-top: 10px;
+      font-weight: bold;
+    }
+
+    .link-box {
+      background-color: #d6e8ff;
+    }
+
+    .link-box a {
+      display: block;
+      margin-top: 10px;
+      background-color: #5D5FEF;
+      color: white;
+      padding: 10px 16px;
+      border-radius: 6px;
+      font-weight: bold;
+      text-decoration: none;
+    }
+
+    .link-box a:hover {
+      background-color: #3d3fee;
+    }
+
+    /* ===== How It Works Section ===== */
+    .how-it-works {
+      text-align: center;
+      margin: 60px auto 40px;
+    }
+
+    .how-it-works h2 {
+      color: #333;
+      margin-bottom: 30px;
+    }
+
+    .steps {
+      display: flex;
+      justify-content: center;
+      gap: 40px;
+      flex-wrap: wrap;
+    }
+
+    .step {
+      max-width: 200px;
+    }
+
+    .step img {
+      width: 60px;
+      height: 60px;
+      margin-bottom: 15px;
+    }
+
+    /* ===== Testimonials Section ===== */
+    .testimonials {
+      text-align: center;
+      margin: 60px auto;
+      max-width: 900px;
+    }
+
+    .testimonials h2 {
+      margin-bottom: 30px;
+      color: #2e2e2e;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    .testimonial-box {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .testimonial-card {
+      background: #f5f7ff;
+      border: 1px solid #dee6ff;
+      padding: 25px 30px;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(93, 95, 239, 0.07);
+      text-align: left;
+      position: relative;
+      font-size: 1em;
+      color: #333;
+      font-style: italic;
+    }
+
+    .testimonial-card::before {
+      content: "❝";
+      font-size: 3em;
+      color: #5D5FEF;
+      position: absolute;
+      top: 5px;
+      left: 15px;
+    }
+
+    .testimonial-card .user {
+      display: block;
+      margin-top: 15px;
+      color: #5D5FEF;
+      font-weight: bold;
+      font-style: normal;
+      text-align: right;
+    }
+    .write-testimonial {
+  margin: 60px auto;
+  text-align: center;
+}
+.write-testimonial h2 {
+  margin-bottom: 20px;
+  color: #2e2e2e;
+}
+
+.write-testimonial input,
+.write-testimonial textarea {
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 10px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  font-size: 1em;
+}
+
+.write-testimonial textarea {
+  min-height: 100px;
+  resize: vertical;
+}
+
+.write-testimonial button {
+  background-color: #5D5FEF;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  font-weight: bold;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.write-testimonial button:hover {
+  background-color: #3d3fee;
+}
+
+#testimonialStatus {
+  margin-top: 10px;
+  font-weight: 500;
+}
+
+  </style>
+</head>
+
+<body>
+  <header class="navbar">
+    <a href="index.html" class="logo">
+      <i class="fas fa-sync-alt"></i> Skill Swap
+    </a>
+    <nav>
+      <ul id="navLinks"></ul>
+    </nav>
+  </header>
+
+  <main>
+    <!-- HERO + CARDS -->
+    <section class="hero-section">
+      <div class="side-cards">
+        <div class="stat-box">
+          Registered Users <br>
+          <div class="number" id="userCount">0</div>
+        </div>
+        <div class="link-box">
+          Do you have a skill?<br>
+          <a href="signup.html">Sign Up</a>
+        </div>
+      </div>
+
+      <div class="hero">
+        <h1>Discover and Share Skills</h1>
+        <p>
+          Connect with people who want to learn and those who are ready to teach. Join our community and grow your knowledge by sharing what you know and learning what you don't.
+        </p>
+        <a href="search.html" class="cta-button">Get Started</a>
+      </div>
+    </section>
+
+    <!-- HOW IT WORKS -->
+    <section class="how-it-works">
+      <h2>How It Works</h2>
+      <div class="steps">
+        <div class="step">
+          <img src="https://cdn-icons-png.flaticon.com/512/9068/9068848.png" alt="Search">
+          <p>1. Search for a skill you want to learn</p>
+        </div>
+        <div class="step">
+          <img src="https://cdn-icons-png.flaticon.com/512/9131/9131509.png" alt="Connect">
+          <p>2. Connect with someone who offers it</p>
+        </div>
+        <div class="step">
+          <img src="https://cdn-icons-png.flaticon.com/512/10787/10787880.png" alt="Exchange">
+          <p>3. Exchange knowledge and grow together</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- TESTIMONIALS -->
+    <section class="testimonials">
+      <h2>What Our Users Say</h2>
+      <div class="testimonial-box">
+        <div class="testimonial-card">
+          <p>Skill Swap helped me build confidence in speaking Spanish by connecting me with native speakers.</p>
+          <span class="user">— Atheer H.</span>
+        </div>
+        <div class="testimonial-card">
+          <p>I finally learned graphic design while teaching others how to play piano. A perfect match!</p>
+          <span class="user">— Bdour Q.</span>
+        </div>
+      </div>
+    </section>
+    <section class="write-testimonial">
+      <h2>Write Your Testimonial</h2>
+      <form id="testimonialForm" class="form-container" style="max-width:600px; margin:auto;">
+        <input type="text" id="testimonialName" placeholder="Your Name" required>
+        <input type="text" id="testimonialEmail" placeholder="Your Email" required>
+        <textarea id="testimonialMessage" placeholder="Your feedback..." required></textarea>
+        <button type="submit">Submit</button>
+        <p id="testimonialStatus"></p>
+      </form>
+    </section>
+    
+  </main>
+
+  <footer>
+    <div class="footer-content">
+      <p>© 2025 Skill Swap |
+        <a href="about.html">About</a> |
+        <a href="contact.html">Contact</a> |
+        <a href="support.html">Support</a>
+      </p>
+    </div>
+  </footer>
+
+  <script src="static/js/main.js"></script>
+  <script>
+    // Animated fake user counter
+    function animateCount(id, target, duration) {
+      const el = document.getElementById(id);
+      let start = 0;
+      const increment = Math.ceil(target / (duration / 16));
+      const counter = setInterval(() => {
+        start += increment;
+        if (start >= target) {
+          start = target;
+          clearInterval(counter);
+        }
+        el.textContent = start.toLocaleString();
+      }, 16);
+    }
+
+    animateCount("userCount", 12540, 1500);
+  </script>
+  <script>
+    document.getElementById("testimonialForm").addEventListener("submit", async function(e) {
+      e.preventDefault();
+      const name = document.getElementById("testimonialName").value;
+      const email = document.getElementById("testimonialEmail").value;
+      const message = document.getElementById("testimonialMessage").value;
+      const statusEl = document.getElementById("testimonialStatus");
+  
+      const res = await fetch('/api/testimonial', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name, email, message })
+      });
+  
+      const data = await res.json();
+      if (data.success) {
+        statusEl.textContent = "✅ Thank you for your feedback!";
+        statusEl.style.color = "green";
+        document.getElementById("testimonialForm").reset();
+      } else {
+        statusEl.textContent = "❌ Failed to send. Try again.";
+        statusEl.style.color = "red";
+      }
+    });
+  </script>
+  
+  <!-- ✨ أضف داخل <body> -->
+<!-- ✅ Chatbot -->
+<div id="chatbot-container">
+  <div id="chatbot-box" class="chatbox hidden">
+    <div class="chatbox-header">
+      <div class="agent-info">
+        <i class="fas fa-headset avatar"></i>
+        <div>
+          <h3>Help & Support</h3>
+          <span class="online-status"><span class="dot"></span> Online</span>
+        </div>
+      </div>
+      <button onclick="toggleChatbot(false)" class="close-btn">&times;</button>
+    </div>
+    <div class="chatbox-body" id="chat-content">
+      <p class="timestamp">Today at 9:23 AM</p>
+      <div class="chat-message">👋 Hello! I'm here to help. Choose an option below:</div>
+      <div class="quick-replies">
+        <button onclick="sendReply('How do I contact a user?')">How do I contact a user?</button>
+        <button onclick="sendReply('I forgot my password.')">I forgot my password</button>
+        <button onclick="sendReply('Where can I edit my profile?')">Where can I edit my profile?</button>
+      </div>
+    </div>
+  </div>
+
+  <button class="floating-button" onclick="toggleChatbot(true)">
+    <i class="fas fa-comment-dots"></i>
+  </button>
+</div>
+<script>
+  function toggleChatbot(open) {
+    const box = document.getElementById('chatbot-box');
+    box.classList.toggle('hidden', !open);
+  }
+
+  function sendReply(message) {
+    const chat = document.getElementById('chat-content');
+    const userReply = document.createElement('div');
+    userReply.className = 'chat-message';
+    userReply.style.background = '#d6e4ff';
+    userReply.textContent = '🧑‍💼 ' + message;
+    chat.appendChild(userReply);
+
+    const botReply = document.createElement('div');
+    botReply.className = 'chat-message';
+    setTimeout(() => {
+      botReply.textContent = getBotResponse(message);
+      chat.appendChild(botReply);
+      chat.scrollTop = chat.scrollHeight;
+    }, 500);
+  }
+
+  function getBotResponse(msg) {
+    if (msg.includes('contact')) return 'Click "Contact via Email" on user profiles.';
+    if (msg.includes('password')) return 'Go to login page and click "Forgot Password".';
+    if (msg.includes('edit')) return 'You can edit your profile from the Profile page.';
+    return "I'm here to help!";
+  }
+</script>
+
+
+</body>
+</html>

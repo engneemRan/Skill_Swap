@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Sign Up</title>
+  <link rel="stylesheet" href="static/css/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+</head>
+<body>
+  <header class="navbar">
+    <a href="index.html" class="logo">
+      <i class="fas fa-sync-alt"></i> Skill Swap
+    </a>
+    
+
+    <nav><ul id="navLinks"></ul></nav>
+  </header>
+
+  <main>
+    <h1>Sign Up</h1>
+    <form id="signupForm" class="form-container">
+      <input type="text" id="name" placeholder="Full Name" required>
+      <input type="email" id="email" placeholder="Email" required>
+      <input type="password" id="password" placeholder="Password" required>
+      <input type="text" id="offers" placeholder="Skills You Offer" required>
+      <input type="text" id="wants" placeholder="Skills You Want to Learn">
+      <button type="submit">Create Account</button>
+      <p id="signupMessage"></p>
+    </form>
+  </main>
+
+  <footer>
+    <div class="footer-content">
+      <p>© 2025 Skill Swap |
+        <a href="about.html">About</a> |
+        <a href="contact.html">Contact</a> |
+        <a href="support.html">Support</a>
+      </p>
+    </div>
+  </footer>
+
+  <script src="static/js/main.js"></script>
+  <script>
+    document.getElementById('signupForm').addEventListener('submit', async function(e) {
+      e.preventDefault();
+      const body = {
+        name: document.getElementById('name').value,
+        email: document.getElementById('email').value,
+        password: document.getElementById('password').value,
+        offers: document.getElementById('offers').value,
+        wants: document.getElementById('wants').value
+      };
+
+      const res = await fetch('/api/signup', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(body)
+      });
+
+      const data = await res.json();
+      if (data.success) {
+        const msg = document.getElementById('signupMessage');
+msg.className = 'success-message';
+msg.textContent = "✅ Account created successfully! Redirecting...";
+
+        localStorage.setItem('user', JSON.stringify(data.user));
+        window.location.href = "profile.html";
+      } else {
+        document.getElementById('signupMessage').textContent = "Failed to sign up.";
+      }
+    });
+    const { sendRegistrationEmail } = require('./services/mailService'); // ← تأكد من الاستدعاء
+
+app.post('/api/signup', async (req, res) => {
+  const { name, email, password } = req.body;
+
+  const existing = await User.findOne({ email });
+  if (existing) return res.status(400).json({ error: 'Email already exists' });
+
+  const user = new User({ name, email, password });
+  await user.save();
+
+  // ✅ أرسل الإيميل هنا
+  try {
+    await sendRegistrationEmail(email, name);
+    console.log('📩 Email sent after signup');
+  } catch (err) {
+    console.error('❌ Failed to send email after signup:', err);
+  }
+
+  res.json({
+  success: true,
+  user: {
+    name: user.name,
+    email: user.email,
+    _id: user._id
+  }
+});
+
+});
+
+  </script>
+    <!-- ✨ أضف داخل <body> -->
+<!-- ✅ Chatbot -->
+<div id="chatbot-container">
+  <div id="chatbot-box" class="chatbox hidden">
+    <div class="chatbox-header">
+      <div class="agent-info">
+        <i class="fas fa-headset avatar"></i>
+        <div>
+          <h3>Help & Support</h3>
+          <span class="online-status"><span class="dot"></span> Online</span>
+        </div>
+      </div>
+      <button onclick="toggleChatbot(false)" class="close-btn">&times;</button>
+    </div>
+    <div class="chatbox-body" id="chat-content">
+      <p class="timestamp">Today at 9:23 AM</p>
+      <div class="chat-message">👋 Hello! I'm here to help. Choose an option below:</div>
+      <div class="quick-replies">
+        <button onclick="sendReply('How do I contact a user?')">How do I contact a user?</button>
+        <button onclick="sendReply('I forgot my password.')">I forgot my password</button>
+        <button onclick="sendReply('Where can I edit my profile?')">Where can I edit my profile?</button>
+      </div>
+    </div>
+  </div>
+
+  <button class="floating-button" onclick="toggleChatbot(true)">
+    <i class="fas fa-comment-dots"></i>
+  </button>
+</div>
+<script>
+  function toggleChatbot(open) {
+    const box = document.getElementById('chatbot-box');
+    box.classList.toggle('hidden', !open);
+  }
+
+  function sendReply(message) {
+    const chat = document.getElementById('chat-content');
+    const userReply = document.createElement('div');
+    userReply.className = 'chat-message';
+    userReply.style.background = '#d6e4ff';
+    userReply.textContent = '🧑‍💼 ' + message;
+    chat.appendChild(userReply);
+
+    const botReply = document.createElement('div');
+    botReply.className = 'chat-message';
+    setTimeout(() => {
+      botReply.textContent = getBotResponse(message);
+      chat.appendChild(botReply);
+      chat.scrollTop = chat.scrollHeight;
+    }, 500);
+  }
+
+  function getBotResponse(msg) {
+    if (msg.includes('contact')) return 'Click "Contact via Email" on user profiles.';
+    if (msg.includes('password')) return 'Go to login page and click "Forgot Password".';
+    if (msg.includes('edit')) return 'You can edit your profile from the Profile page.';
+    return "I'm here to help!";
+  }
+</script>
+
+</body>
+</html>

@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>User Profile - Skill Swap</title>
+  <link rel="stylesheet" href="static/css/style.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <style>
+    body {
+      font-family: 'Tajawal', sans-serif;
+      background-color: #f4f6fa;
+      margin: 0;
+      padding: 0;
+    }
+
+    .profile-container {
+      background: white;
+      padding: 40px;
+      border-radius: 16px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+      text-align: center;
+      max-width: 600px;
+      margin: 40px auto;
+      transition: all 0.3s ease-in-out;
+    }
+
+    .profile-container h2 {
+      font-size: 28px;
+      color: #2c3e50;
+      margin-bottom: 10px;
+    }
+
+    .profile-container p {
+      color: #555;
+      font-size: 16px;
+      margin: 8px 0;
+    }
+
+    .btn-email {
+      margin-top: 20px;
+      background: #0073e6;
+      color: white;
+      padding: 12px 24px;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: 600;
+      transition: background 0.3s;
+      display: inline-block;
+    }
+
+    .btn-email:hover {
+      background: #005bb5;
+    }
+
+    
+  </style>
+</head>
+<body>
+  <header class="navbar">
+    <a href="index.html" class="logo">
+      <i class="fas fa-sync-alt"></i> Skill Swap
+    </a>
+    <nav>
+      <ul id="navLinks"></ul>
+    </nav>
+  </header>
+
+  <main>
+    <div class="profile-container" id="userProfile">
+      <p>Loading profile...</p>
+    </div>
+  </main>
+
+  <footer>
+    <div class="footer-content">
+      <p>© 2025 Skill Swap | 
+        <a href="about.html">About</a> | 
+        <a href="support.html">Support</a> | 
+        <a href="contact.html">Contact</a>
+      </p>
+    </div>
+  </footer>
+
+  <script src="static/js/main.js"></script>
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    const userId = params.get('id');
+
+    if (!userId) {
+      document.getElementById("userProfile").innerHTML = "<p>User ID is missing.</p>";
+    } else {
+      fetch(`/api/users/${userId}`)
+        .then(res => {
+          if (!res.ok) throw new Error("User not found");
+          return res.json();
+        })
+        .then(user => {
+          const container = document.getElementById("userProfile");
+          container.innerHTML = `
+            <h2>${user.name}</h2>
+            <p><i class="fas fa-user"></i> <strong>Bio:</strong> ${user.bio || "No bio provided."}</p>
+            <p><i class="fas fa-hands-helping"></i> <strong>Offers:</strong> ${user.offers || "No skills listed."}</p>
+            <p><i class="fas fa-book-reader"></i> <strong>Wants to Learn:</strong> ${user.wants || "No preferences listed."}</p>
+            <a class="btn-email" href="mailto:${user.email}"><i class="fas fa-envelope"></i> Contact via Email</a>
+            <br><br>
+            <a href="search.html" class="btn-email" style="background: #ccc;"><i class="fas fa-arrow-left"></i> Back to Search</a>
+          `;
+        })
+        .catch(() => {
+          document.getElementById("userProfile").innerHTML = "<p>User not found.</p>";
+        });
+    }
+  </script>
+    <!-- ✨ أضف داخل <body> -->
+<!-- ✅ Chatbot -->
+<div id="chatbot-container">
+  <div id="chatbot-box" class="chatbox hidden">
+    <div class="chatbox-header">
+      <div class="agent-info">
+        <i class="fas fa-headset avatar"></i>
+        <div>
+          <h3>Help & Support</h3>
+          <span class="online-status"><span class="dot"></span> Online</span>
+        </div>
+      </div>
+      <button onclick="toggleChatbot(false)" class="close-btn">&times;</button>
+    </div>
+    <div class="chatbox-body" id="chat-content">
+      <p class="timestamp">Today at 9:23 AM</p>
+      <div class="chat-message">👋 Hello! I'm here to help. Choose an option below:</div>
+      <div class="quick-replies">
+        <button onclick="sendReply('How do I contact a user?')">How do I contact a user?</button>
+        <button onclick="sendReply('I forgot my password.')">I forgot my password</button>
+        <button onclick="sendReply('Where can I edit my profile?')">Where can I edit my profile?</button>
+      </div>
+    </div>
+  </div>
+
+  <button class="floating-button" onclick="toggleChatbot(true)">
+    <i class="fas fa-comment-dots"></i>
+  </button>
+</div>
+<script>
+  function toggleChatbot(open) {
+    const box = document.getElementById('chatbot-box');
+    box.classList.toggle('hidden', !open);
+  }
+
+  function sendReply(message) {
+    const chat = document.getElementById('chat-content');
+    const userReply = document.createElement('div');
+    userReply.className = 'chat-message';
+    userReply.style.background = '#d6e4ff';
+    userReply.textContent = '🧑‍💼 ' + message;
+    chat.appendChild(userReply);
+
+    const botReply = document.createElement('div');
+    botReply.className = 'chat-message';
+    setTimeout(() => {
+      botReply.textContent = getBotResponse(message);
+      chat.appendChild(botReply);
+      chat.scrollTop = chat.scrollHeight;
+    }, 500);
+  }
+
+  function getBotResponse(msg) {
+    if (msg.includes('contact')) return 'Click "Contact via Email" on user profiles.';
+    if (msg.includes('password')) return 'Go to login page and click "Forgot Password".';
+    if (msg.includes('edit')) return 'You can edit your profile from the Profile page.';
+    return "I'm here to help!";
+  }
+</script>
+
+</body>
+</html>

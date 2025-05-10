@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>About - Skill Swap</title>
+  <link rel="stylesheet" href="static/css/style.css" />
+  <style>
+    main {
+      max-width: 1000px;
+      margin: auto;
+      padding: 60px 20px;
+    }
+
+    h1, h2 {
+      color: #5D5FEF;
+      font-family: 'Poppins', sans-serif;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+
+    p {
+      line-height: 1.8;
+      color: #444;
+      margin-bottom: 20px;
+      font-size: 1.05em;
+      text-align: center;
+    }
+
+    .team-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 25px;
+      margin-top: 40px;
+    }
+
+    .team-member {
+      background-color: #f1f4ff;
+      border: 1px solid #dbe2ff;
+      padding: 20px;
+      text-align: center;
+      font-weight: 500;
+      border-radius: 16px;
+      box-shadow: 0 4px 10px rgba(93, 95, 239, 0.08);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      text-decoration: none;
+      color: #333;
+      font-size: 1.05em;
+    }
+
+    .team-member:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 8px 18px rgba(93, 95, 239, 0.15);
+      background-color: #eef2ff;
+    }
+
+    footer {
+      background-color: #222;
+      color: #eee;
+      padding: 20px 0;
+      text-align: center;
+      font-size: 0.9em;
+    }
+
+    footer a {
+      color: #d7d7d7;
+      text-decoration: none;
+      margin: 0 5px;
+    }
+
+    footer a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <header class="navbar">
+    <a href="index.html" class="logo">
+      <i class="fas fa-sync-alt"></i> Skill Swap
+    </a>
+    <nav><ul id="navLinks"></ul></nav>
+  </header>
+
+  <main>
+    <h1>About Skill Swap</h1>
+    <p>
+      Skill Swap is a collaborative platform designed to help people share and exchange skills with each other.<br>
+      Whether you're a professional wanting to teach your expertise, or a learner eager to grow — Skill Swap connects you with the right people in your community.
+    </p>
+    <p>
+      Our mission is to make learning more accessible, personalized, and community-driven — because everyone has something valuable to share, and something new to learn.
+    </p>
+
+    <section>
+      <h2>Meet Our Team</h2>
+      <div class="team-grid">
+        <a href="user.html?id=6818065a790f29cbc9002848" class="team-member">Aliyah Al Shammari</a>
+        <a href="user.html?id=6818065a790f29cbc9002849" class="team-member">Atheer Al Harbi</a>
+        <a href="user.html?id=6818065a790f29cbc900284a" class="team-member">Bdour Al Qurashi</a>
+        <a href="user.html?id=6818065a790f29cbc900284b" class="team-member">Shoug Al Shammari</a>
+        <a href="user.html?id=68180a6964a7cb816712773b" class="team-member">Raneem Al Harbi</a>
+        <a href="user.html?id=6818065a790f29cbc900284d" class="team-member">Randa Al Harthy</a>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="footer-content">
+      <p>© 2025 Skill Swap |
+        <a href="about.html">About</a> |
+        <a href="contact.html">Contact</a> |
+        <a href="support.html">Support</a>
+      </p>
+    </div>
+  </footer>
+
+  <script src="static/js/main.js"></script>
+</body>
+</html>
