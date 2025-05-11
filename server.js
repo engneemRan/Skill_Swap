@@ -12,7 +12,7 @@ const {
   sendRegistrationEmail,
 } = require("./services/mailService");
 
-mongoose.connect("mongodb://127.0.0.1:27017/skill_swap", {
+mongoose.connect(process.env.MONGO_URL, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 });
