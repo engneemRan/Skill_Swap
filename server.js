@@ -1,3 +1,4 @@
+
 const express = require("express");
 const app = express();
 const mongoose = require("mongoose");
@@ -31,7 +32,6 @@ app.use(cors());
 app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, "public")));
 
-// تسجيل مستخدم جديد
 app.post("/api/signup", async (req, res) => {
   const { name, email, password } = req.body;
   const existing = await User.findOne({ email });
@@ -39,12 +39,10 @@ app.post("/api/signup", async (req, res) => {
 
   const user = new User({ name, email, password });
   await user.save();
-  // ✅ أرسل إيميل ترحيبي بعد الحفظ
   await sendRegistrationEmail(email, name);
   res.json({ success: true });
 });
 
-// تسجيل الدخول
 app.post("/api/login", async (req, res) => {
   const { email, password } = req.body;
   const user = await User.findOne({ email, password });
@@ -53,7 +51,6 @@ app.post("/api/login", async (req, res) => {
   res.json(user);
 });
 
-// تحديث بيانات المستخدم المسجل
 app.put("/api/users/:id", async (req, res) => {
   const { bio, offers, wants, password } = req.body;
 
@@ -64,7 +61,6 @@ app.put("/api/users/:id", async (req, res) => {
   user.offers = offers;
   user.wants = wants;
 
-  // تحديث كلمة المرور إذا وُجدت
   if (password && password.trim()) {
     user.password = password;
   }
@@ -73,7 +69,6 @@ app.put("/api/users/:id", async (req, res) => {
   res.json({ success: true });
 });
 
-// تحديث بيانات المستخدم من المشرف (نفس الصلاحية حالياً)
 app.put("/api/users/:id/admin-update", async (req, res) => {
   const { name, email, bio, offers, wants } = req.body;
   try {
@@ -90,7 +85,6 @@ app.put("/api/users/:id/admin-update", async (req, res) => {
   }
 });
 
-// حذف مستخدم
 app.delete("/api/users/:id", async (req, res) => {
   try {
     await User.findByIdAndDelete(req.params.id);
@@ -100,7 +94,6 @@ app.delete("/api/users/:id", async (req, res) => {
   }
 });
 
-// جلب كل المستخدمين (للمشرف)
 app.get("/api/users", async (req, res) => {
   try {
     const users = await User.find();
@@ -110,7 +103,6 @@ app.get("/api/users", async (req, res) => {
   }
 });
 
-// جلب مستخدم عبر ID (لبروفايل عام)
 app.get("/api/users/:id", async (req, res) => {
   try {
     const user = await User.findById(req.params.id);
@@ -121,7 +113,16 @@ app.get("/api/users/:id", async (req, res) => {
   }
 });
 
-// إدخال مستخدمين وهميين (اختياري للاختبار)
+app.get("/api/user/:id", async (req, res) => {
+  try {
+    const user = await User.findById(req.params.id);
+    if (!user) return res.status(404).json({ error: "User not found" });
+    res.json(user);
+  } catch (err) {
+    res.status(500).json({ error: "Invalid ID or error occurred" });
+  }
+});
+
 app.get("/api/init-users", async (req, res) => {
   await User.deleteMany({});
   await User.insertMany([
@@ -152,34 +153,18 @@ app.get("/api/init-users", async (req, res) => {
   ]);
   res.send("Dummy users added.");
 });
-app.get("/api/user/:id", async (req, res) => {
-  try {
-    const user = await User.findById(req.params.id);
-    if (!user) return res.status(404).json({ error: "User not found" });
-    res.json(user);
-  } catch (err) {
-    res.status(500).json({ error: "Invalid ID or error occurred" });
-  }
-});
-
-// بدء السيرفر
-const PORT = 3000;
-app.listen(PORT, () => {
-  console.log(`✅ Server running at http://localhost:${PORT}`);
-});
-const { sendContactMessage } = require("./services/mailService");
 
 app.post("/api/contact", async (req, res) => {
   const { sender, type, message } = req.body;
   try {
     await sendContactMessage(sender, type, message);
-    res.json({ success: true }); // ⚠️ هذا مهم جدًا
+    res.json({ success: true });
   } catch (err) {
     console.error("Failed to send contact message:", err);
     res.status(500).json({ success: false });
   }
 });
-// استقبال شهادات المستخدمين (Testimonials)
+
 app.post("/api/testimonial", async (req, res) => {
   const { name, email, message } = req.body;
   try {
@@ -189,4 +174,9 @@ app.post("/api/testimonial", async (req, res) => {
     console.error("❌ Failed to send testimonial:", err);
     res.status(500).json({ success: false });
   }
+});
+
+const PORT = 3000;
+app.listen(PORT, () => {
+  console.log(`✅ Server running at http://localhost:${PORT}`);
 });
